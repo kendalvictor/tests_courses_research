@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  lambda:
+    build: .
+    environment:
+    volumes:      
+      - /home/rmg/STORAGE/tests_courses_research/practice/DOCKER/docker-attemp-pyspark-hadoop/charbeat :/mnt/chartbeat/

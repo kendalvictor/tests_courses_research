@@ -1,0 +1,237 @@
+#imagen a descargar
+FROM openjdk:8u181-jre
+
+#mantenedor
+MAINTAINER Anonymus
+
+ARG DBHOST
+ENV DBHOST=${DBHOST}
+ARG DBPORT
+ENV DBPORT=${DBPORT}
+ARG DBUSER
+ENV DBUSER=${DBUSER}
+ARG DBPASSWORD
+ENV DBPASSWORD=${DBPASSWORD}
+
+ENV AWS_DEFAULT_REGION='us-east-1'
+
+ARG ENVIRONMENT
+ENV ENVIRONMENT=${ENVIRONMENT:-production}
+
+ARG S3_BUCKET
+ARG PSQL_HOST
+ARG PSQL_PORT
+ARG PSQL_DBNAME
+ARG PSQL_DBSCHEMA
+ARG PSQL_DBTABLE
+ARG PSQL_DBTABLE_CATEGORY
+ARG PDQL_DBTABLE_REDACCIONES_OTHER
+ARG PSQL_USER
+ARG PSQL_PASSWORD
+ARG MYSQL_HOST
+ARG MYSQL_PORT
+ARG MYSQL_USER
+ARG MYSQL_PASSWORD
+ARG MYSQLPERUCOM_HOST
+ARG MYSQLPERUCOM_PORT
+ARG MYSQLPERUCOM_USER
+ARG MYSQLPERUCOM_PASSWORD
+ARG MYSQLPUBLIMETRO_HOST
+ARG MYSQLPUBLIMETRO_PORT
+ARG MYSQLPUBLIMETRO_USER
+ARG MYSQLPUBLIMETRO_PASSWORD
+ARG HIVE_SCHEMA
+ARG HIVE_CROSS_TABLE
+ARG HIVE_CATEGORY_TABLE
+ARG HIVE_DBTABLE_REDACCIONES_OTHER
+ARG HIVE_DIR_S3_OTHER
+
+ENV S3_BUCKET=${S3_BUCKET}
+ENV PSQL_HOST=${PSQL_HOST}
+ENV PSQL_PORT=${PSQL_PORT}
+ENV PSQL_DBNAME=${PSQL_DBNAME}
+ENV PSQL_DBSCHEMA=${PSQL_DBSCHEMA}
+ENV PSQL_DBTABLE=${PSQL_DBTABLE}
+ENV PSQL_DBTABLE_CATEGORY=${PSQL_DBTABLE_CATEGORY}
+ENV PDQL_DBTABLE_REDACCIONES_OTHER=${PDQL_DBTABLE_REDACCIONES_OTHER}
+ENV PSQL_USER=${PSQL_USER}
+ENV PSQL_PASSWORD=${PSQL_PASSWORD}
+ENV MYSQL_HOST=${MYSQL_HOST}
+ENV MYSQL_PORT=${MYSQL_PORT}
+ENV MYSQL_USER=${MYSQL_USER}
+ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
+ENV MYSQLPERUCOM_HOST=${MYSQLPERUCOM_HOST}
+ENV MYSQLPERUCOM_PORT=${MYSQLPERUCOM_PORT}
+ENV MYSQLPERUCOM_USER=${MYSQLPERUCOM_USER}
+ENV MYSQLPERUCOM_PASSWORD=${MYSQLPERUCOM_PASSWORD}
+ENV MYSQLPUBLIMETRO_HOST=${MYSQLPUBLIMETRO_HOST}
+ENV MYSQLPUBLIMETRO_PORT=${MYSQLPUBLIMETRO_PORT}
+ENV MYSQLPUBLIMETRO_USER=${MYSQLPUBLIMETRO_USER}
+ENV MYSQLPUBLIMETRO_PASSWORD=${MYSQLPUBLIMETRO_PASSWORD}
+ENV HIVE_SCHEMA=${HIVE_SCHEMA}
+ENV HIVE_CROSS_TABLE=${HIVE_CROSS_TABLE}
+ENV HIVE_CATEGORY_TABLE=${HIVE_CATEGORY_TABLE}
+ENV HIVE_DBTABLE_REDACCIONES_OTHER=${HIVE_DBTABLE_REDACCIONES_OTHER}
+ENV HIVE_DIR_S3_OTHER=${HIVE_DIR_S3_OTHER}
+
+ARG BUCKET
+RUN echo "$BUCKET" > BUCKET.txt
+ENV BUCKET=${BUCKET}
+
+ARG AWS_ACCESS_KEY_ID
+RUN echo "$AWS_ACCESS_KEY_ID" > AWS_ACCESS_KEY_ID.txt
+ENV AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+
+ARG AWS_SECRET_ACCESS_KEY
+RUN echo "$AWS_SECRET_ACCESS_KEY" > AWS_SECRET_ACCESS_KEY.txt
+ENV AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+
+ARG PROJECT_NAME
+RUN echo "$PROJECT_NAME" > PROJECT_NAME.txt
+ENV PROJECT_NAME=${PROJECT_NAME}
+
+#actualizar el repositorio
+RUN apt-get update
+
+#instalar librerias
+RUN apt-get update && apt-get install -y python-pip=9.0.1-2 && apt-get install -y procps
+RUN apt-get install -y zip unzip
+RUN pip install boto3==1.3.0
+RUN pip install awscli==1.15.71
+
+# Install Hadoop
+ENV HADOOP_VERSION=2.7.3
+ENV HADOOP_HOME /opt/hadoop-$HADOOP_VERSION
+ENV HADOOP_CONF_DIR=$HADOOP_HOME/conf
+ENV PATH $PATH:$HADOOP_HOME/bin
+RUN curl -sL \
+  "https://s3.amazonaws.com/ecoid.ec/walterdata/hadoop-2.7.3.tar.gz" \
+    | gunzip \
+    | tar -x -C /opt/ \
+  && rm -rf $HADOOP_HOME/share/doc \
+  && chown -R root:root $HADOOP_HOME \
+  && mkdir -p $HADOOP_HOME/logs \
+  && mkdir -p $HADOOP_CONF_DIR \
+  && chmod 777 $HADOOP_CONF_DIR \
+  && chmod 777 $HADOOP_HOME/logs 
+
+
+# Install Hive
+ENV HIVE_VERSION=2.0.1
+ENV HIVE_HOME=/opt/apache-hive-$HIVE_VERSION-bin
+ENV HIVE_CONF_DIR=$HIVE_HOME/conf
+ENV PATH $PATH:$HIVE_HOME/bin
+RUN curl -sL \
+  "https://s3.amazonaws.com/ecoid.ec/walterdata/apache-hive-2.0.1-bin.tar.gz" \
+    | gunzip \
+    | tar -x -C /opt/ \
+  && chown -R root:root $HIVE_HOME \
+  && mkdir -p $HIVE_HOME/hcatalog/var/log \
+  && mkdir -p $HIVE_HOME/var/log \
+  && mkdir -p /data/hive/ \
+  && mkdir -p $HIVE_CONF_DIR \
+  && chmod 777 $HIVE_HOME/hcatalog/var/log \
+  && chmod 777 $HIVE_HOME/var/log
+
+# Install S3 jars for Hive
+RUN ln -s $HADOOP_HOME/share/hadoop/tools/lib/aws-java-sdk-1.7.4.jar $HIVE_HOME/lib/.
+RUN ln -s $HADOOP_HOME/share/hadoop/tools/lib/hadoop-aws-2.7.3.jar $HIVE_HOME/lib/.
+
+# Install Spark
+ENV SPARK_VERSION=2.3.1
+ENV SPARK_HOME=/opt/spark-$SPARK_VERSION-bin-hadoop2.7
+ENV SPARK_CONF_DIR=$SPARK_HOME/conf
+ENV PATH $PATH:$SPARK_HOME/bin
+RUN curl -sL \
+  "https://s3.amazonaws.com/ecoid.ec/walterdata/spark-2.3.1-bin-hadoop2.7.tgz" \
+    | gunzip \
+    | tar -x -C /opt/ \
+  && chown -R root:root $SPARK_HOME \
+  && mkdir -p /data/spark/ \
+  && mkdir -p $SPARK_HOME/logs \
+  && mkdir -p $SPARK_CONF_DIR \
+  && chmod 777 $SPARK_HOME/logs
+
+# Install S3 jars for Spark
+RUN ln -s $HADOOP_HOME/share/hadoop/tools/lib/aws-java-sdk-1.7.4.jar $SPARK_HOME/jars/.
+RUN ln -s $HADOOP_HOME/share/hadoop/tools/lib/hadoop-aws-2.7.3.jar $SPARK_HOME/jars/.
+
+# Install mssql-jdbc driver for Spark
+ENV MSSQL_JDBC_VERSION=6.4.0.jre8
+RUN wget http://central.maven.org/maven2/com/microsoft/sqlserver/mssql-jdbc/$MSSQL_JDBC_VERSION/mssql-jdbc-$MSSQL_JDBC_VERSION.jar -O $SPARK_HOME/jars/mssql-jdbc-$MSSQL_JDBC_VERSION.jar
+
+
+RUN wget -qP $SPARK_HOME/jars/ https://s3.amazonaws.com/ecoid.ec/walterdata/mysql-connector-java-5.1.44.jar
+RUN wget -qP $SPARK_HOME/jars/ https://s3.amazonaws.com/ecoid.ec/walterdata/mysql-connector-java-8.0.12.jar
+
+RUN echo "Downloading the JDBC drivers for Postgresql"
+RUN wget -qP $SPARK_HOME/jars/ https://s3.amazonaws.com/ecoid.ec/walterdata/postgresql-42.1.4.jar && \
+    echo "Cleaning up" && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ${HADOOP_HOME}/share/doc/* ${SPARK_HOME}/lib/spark-examples*.jar
+
+
+# Configure hive
+ADD hive/conf/hive-site.xml $HIVE_CONF_DIR/
+ADD hive/conf/hive-site.xml $SPARK_CONF_DIR/
+
+# configurar spark
+WORKDIR /opt/spark-$SPARK_VERSION-bin-hadoop2.7/
+COPY spark/conf/spark-defaults.conf conf/
+COPY hadoop/conf/core-site.xml $HADOOP_HOME/etc/hadoop/conf/
+COPY hadoop/conf/core-site.xml $HADOOP_CONF_DIR/core-site.xml
+RUN sed -i 's/$AWS_ACCESS_KEY_ID/'"$AWS_ACCESS_KEY_ID"'/' conf/spark-defaults.conf
+RUN sed -i 's/$AWS_SECRET_ACCESS_KEY/'"$AWS_SECRET_ACCESS_KEY"'/' conf/spark-defaults.conf
+
+RUN sed -i 's/$AWS_ACCESS_KEY_ID/'"$AWS_ACCESS_KEY_ID"'/' $HADOOP_HOME/etc/hadoop/conf/core-site.xml
+RUN sed -i 's/$AWS_SECRET_ACCESS_KEY/'"$AWS_SECRET_ACCESS_KEY"'/' $HADOOP_HOME/etc/hadoop/conf/core-site.xml
+
+RUN sed -i 's/$AWS_ACCESS_KEY_ID/'"$AWS_ACCESS_KEY_ID"'/' $HADOOP_CONF_DIR/core-site.xml
+RUN sed -i 's/$AWS_SECRET_ACCESS_KEY/'"$AWS_SECRET_ACCESS_KEY"'/' $HADOOP_CONF_DIR/core-site.xml
+
+RUN sed -i 's/sparkAssemblyPath=`ls ${SPARK_HOME}\/lib\/spark-assembly\-\*.jar`/echo "Delete Line 118"/g' $HIVE_HOME/bin/hive
+RUN sed -i 's%CLASSPATH="${CLASSPATH}:${sparkAssemblyPath}"%echo "Delete Line 119"%' $HIVE_HOME/bin/hive
+
+#WORKDIR docker/
+ADD init.sh /
+ADD install.sh /
+ADD job.sh /
+ADD job_postgres.sh /
+ADD start.sh /
+
+ADD requirements.txt /
+
+RUN chmod 777 /init.sh
+RUN chmod 777 /install.sh
+RUN chmod 777 /job.sh
+RUN chmod 777 /job_postgres.sh
+RUN chmod 777 /start.sh
+
+
+RUN mkdir -p /mnt/"$PROJECT_NAME"
+WORKDIR /mnt/"$PROJECT_NAME"
+
+RUN pip install -r /requirements.txt
+
+RUN pip install virtualenv virtualenvwrapper
+RUN mkdir -p $HOME/.virtualenvs
+RUN echo "export WORKON_HOME=$HOME/.virtualenvs" >> $HOME/.bashrc
+ENV VIRTUALENVWRAPPER_PYTHON=/usr/bin/python
+ENV VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv
+RUN echo "source \"/usr/local/bin/virtualenvwrapper.sh\"" >> $HOME/.bashrc
+RUN /bin/bash -c 'source /root/.bashrc'
+RUN /bin/bash -c "source /usr/local/bin/virtualenvwrapper.sh; mkvirtualenv $PROJECT_NAME"
+RUN /bin/bash -c "source /usr/local/bin/virtualenvwrapper.sh; workon $PROJECT_NAME; pip install -r /requirements.txt"
+
+WORKDIR /mnt/
+
+RUN chmod 777 -R  /mnt/
+RUN chown -R root /mnt/
+
+RUN apt-get update && apt-get install -y sudo
+USER root
+
+EXPOSE 8080 22 7077 8888 8081 4040 7001 7002 7003 7004 7005 7006 9083 10000 10002 50111 9083 5432
+
+ENTRYPOINT ["/bin/sh","/init.sh"]
+SHELL ["/bin/bash", "-c"]
+
