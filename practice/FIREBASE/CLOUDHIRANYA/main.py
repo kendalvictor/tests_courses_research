@@ -21,26 +21,33 @@ def _ensure_hero(idd):
         return None
 
 
+def _response(data, status):
+    if isinstance(data, dict):
+        data = flask.jsonify(data)
+
+    return data, status, headers
+
+
 def create_hero(request):
     req = request.json or {}
     hero = SUPERHEROES.document()
     hero.set(req)
-    return flask.jsonify({'id': hero.id}), 201, headers
+    return _response({'id': hero.id}, 201)
 
 
 def read_hero(hero):
-    return flask.jsonify(hero.to_dict()), 200, headers
+    return _response(hero.to_dict(), 200)
 
 
 def update_hero(idd, request):
     req = request.json or {}
     SUPERHEROES.document(idd).set(req)
-    return flask.jsonify({'success': True}), 200, headers
+    return _response({'success': True}, 200)
 
 
 def delete_hero(idd):
     SUPERHEROES.document(idd).delete()
-    return flask.jsonify({'success': True}), 200, headers
+    return _response({'success': True}, 200)
 
 
 def heroes(request):
@@ -52,7 +59,7 @@ def heroes(request):
         elif request.method == 'GET':
             return init()
         else:
-            return 'Method not supported', 405, headers
+            return _response('Method not supported', 405)
 
     if request.path.startswith('/'):
         idd = request.path.lstrip('/')
@@ -72,9 +79,9 @@ def heroes(request):
                 return update_hero(idd, request)
 
             else:
-                return 'Method not supported', 405, headers
+                return _response('Method not supported', 405)
 
         else:
-            return 'Resource not found', 404, headers
+            return _response('Resource not found', 404)
 
-    return 'URL not found', 404, headers
+    return _response('URL not found', 404)
