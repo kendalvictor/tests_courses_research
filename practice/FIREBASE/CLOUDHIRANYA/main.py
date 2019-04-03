@@ -1,47 +1,46 @@
 # File: main.py
 import firebase_admin
-from firebase_admin import db
+from firebase_admin import firestore
 import flask
 
-firebase_admin.initialize_app(options={
-    'databaseURL': 'https://gamefunctions-b0e16.firebaseio.com/',
-})
-
-SUPERHEROES = db.reference('superheroes')
+firebase_admin.initialize_app()
+SUPERHEROES = firestore.client().collection('superhumanos')
+headers = {
+    'Access-Control-Allow-Origin': '*'
+}
 
 
 def init():
-    return flask.jsonify({'connection': 'ok'}), 200
+    return flask.jsonify({'connection': 'ok'}), 200, headers
+
+
+def _ensure_hero(idd):
+    try:
+        return SUPERHEROES.document(idd).get()
+    except:
+        return None
 
 
 def create_hero(request):
-    req = request.json
-    hero = SUPERHEROES.push(req)
-    return flask.jsonify({'id': hero.key}), 201
+    req = request.json or {}
+    hero = SUPERHEROES.document()
+    hero.set(req)
+    return flask.jsonify({'id': hero.id}), 201, headers
 
 
-def read_hero(idd):
-    hero = SUPERHEROES.child(idd).get()
-    if not hero:
-        return 'Resource not found', 404
-    return flask.jsonify(hero)
+def read_hero(hero):
+    return flask.jsonify(hero.to_dict()), 200, headers
 
 
 def update_hero(idd, request):
-    hero = SUPERHEROES.child(idd).get()
-    if not hero:
-        return 'Resource not found', 404
-    req = request.json
-    SUPERHEROES.child(idd).update(req)
-    return flask.jsonify({'success': True})
+    req = request.json or {}
+    SUPERHEROES.document(idd).set(req)
+    return flask.jsonify({'success': True}), 200, headers
 
 
 def delete_hero(idd):
-    hero = SUPERHEROES.child(idd).get()
-    if not hero:
-        return 'Resource not found', 404
-    SUPERHEROES.child(idd).delete()
-    return flask.jsonify({'success': True})
+    SUPERHEROES.document(idd).delete()
+    return flask.jsonify({'success': True}), 200, headers
 
 
 def heroes(request):
@@ -53,17 +52,29 @@ def heroes(request):
         elif request.method == 'GET':
             return init()
         else:
-            return 'Method not supported', 405
+            return 'Method not supported', 405, headers
 
     if request.path.startswith('/'):
         idd = request.path.lstrip('/')
-        if request.method == 'GET':
-            return read_hero(idd)
-        elif request.method == 'DELETE':
-            return delete_hero(idd)
-        elif request.method == 'PUT':
-            return update_hero(idd, request)
-        else:
-            return 'Method not supported', 405
+        hero = _ensure_hero(idd)
+        print("idd : ", idd)
+        print("hero : ", hero)
+        print(dir(hero))
 
-    return 'URL not found', 404
+        if hero:
+            if request.method == 'GET':
+                return read_hero(hero)
+
+            elif request.method == 'DELETE':
+                return delete_hero(idd)
+
+            elif request.method == 'PUT':
+                return update_hero(idd, request)
+
+            else:
+                return 'Method not supported', 405, headers
+
+        else:
+            return 'Resource not found', 404, headers
+
+    return 'URL not found', 404, headers

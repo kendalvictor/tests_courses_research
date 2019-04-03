@@ -4,7 +4,6 @@ import sys
 from firebase_admin import firestore
 import firebase_admin
 from firebase_admin import credentials
-from cloudfn.flask_handler import handle_http_event
 
 import flask
 
@@ -75,8 +74,6 @@ def _ensure_hero(id):
         print("/"*50)
         flask.abort(404)
 
-
-handle_http_event(app)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
