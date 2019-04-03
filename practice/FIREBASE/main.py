@@ -1,13 +1,20 @@
-import firebase_admin
+import os
+import sys
+
 from firebase_admin import firestore
 import firebase_admin
 from firebase_admin import credentials
+from cloudfn.flask_handler import handle_http_event
 
 import flask
 
 app = flask.Flask(__name__)
 
-json_credentials = 'gamefunctions-b0e16-firebase-adminsdk-3a4cj-8140ff7bea.json'
+BASE_DIR = os.getcwd()
+if BASE_DIR not in sys.path:
+    sys.path.append(BASE_DIR)
+
+json_credentials = os.path.join(BASE_DIR, 'gamefunctions-b0e16-firebase-adminsdk-3a4cj-8140ff7bea.json')
 cred = credentials.Certificate(json_credentials)
 firebase_admin.initialize_app(cred)
 
@@ -17,7 +24,12 @@ SUPERHEROES = firestore.client().collection('superheroes')
 
 @app.route('/', methods=['GET'])
 def heroes():
-    return flask.jsonify({'coneccion': 'OK'}), 200
+    return flask.jsonify(
+        {
+            'coneccion': 'OK',
+            'json_credentials': json_credentials
+        }
+    ), 200
 
 
 @app.route('/heroes', methods=['POST'])
@@ -63,6 +75,8 @@ def _ensure_hero(id):
         print("/"*50)
         flask.abort(404)
 
+
+handle_http_event(app)
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
