@@ -33,15 +33,9 @@ def heroes():
 
 @app.route('/heroes', methods=['POST'])
 def create_hero():
-    print("1")
     req = flask.request.json or {}
-    print("-"*10, '>', req)
-    print("2")
     hero = SUPERHEROES.document()
-    print("-"*10, '>', hero)
-    print("3")
     hero.set(req)
-    print("4")
     return flask.jsonify({'id': hero.id}), 201
 
 

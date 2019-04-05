@@ -11,7 +11,9 @@ headers = {
 
 
 def init():
-    return flask.jsonify({'connection': 'ok'}), 200, headers
+    return flask.jsonify(
+        {'connection': 'ok'}
+    ), 200, headers
 
 
 def _ensure_hero(idd):
