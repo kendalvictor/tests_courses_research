@@ -23,6 +23,7 @@ RUN pip install boto3==1.9.79
 RUN pip install numpy==1.16.1
 RUN pip install pandas==0.24.1
 RUN pip install dask==0.17.5
+RUN pip install psycopg2==2.7.6.1
 
 RUN python -V
 RUN aws --version
