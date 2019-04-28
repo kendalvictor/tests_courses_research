@@ -339,5 +339,6 @@ requirements.txt
 */**/requirements.txt
 
 *.parquet
+*.pkl
 
 # End of https://www.gitignore.io/api/pydev,python,pycharm,composer,pycharm+iml,pycharm+all,jupyternotebook
