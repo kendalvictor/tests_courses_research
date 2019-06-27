@@ -142,6 +142,9 @@ def reemplace_percentile(val, val_smaller, val_bigger):
         return val_bigger
     return val
 
+def get_type(dicc_data):
+    
+
 def noise_control(dicc_data):
     for k, v in dicc_data.items():
         for num_day, datus in v.items():
