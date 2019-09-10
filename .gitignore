@@ -255,6 +255,7 @@ coverage.xml
 *.zip
 *.gz
 *.csv
+*.dat
 
 # Django stuff:
 *.log
