@@ -24,11 +24,11 @@ import numpy as np
 # Visualizaremos 16 imágenes aleatorias tomadas del set x_train
 ids_imgs = np.random.randint(0,x_train.shape[0],16)
 for i in range(len(ids_imgs)):
-	img = x_train[ids_imgs[i],:,:]
-	plt.subplot(4,4,i+1)
-	plt.imshow(img, cmap='gray')
-	plt.axis('off')
-	plt.title(y_train[ids_imgs[i]])
+    img = x_train[ids_imgs[i],:,:]
+    plt.subplot(4,4,i+1)
+    plt.imshow(img, cmap='gray')
+    plt.axis('off')
+    plt.title(y_train[ids_imgs[i]])
 plt.suptitle('16 imágenes del set MNIST')
 plt.show()
 
@@ -55,7 +55,7 @@ Y_test = np_utils.to_categorical(y_test,nclasses)
 #     total de 10 categorías
 #
 
-np.random.seed(1)		# Para reproducibilidad del entrenamiento
+np.random.seed(1) # Para reproducibilidad del entrenamiento
 input_dim = X_train.shape[1]
 output_dim = Y_train.shape[1]
 
@@ -105,14 +105,14 @@ Y_pred = modelo.predict_classes(X_test)
 
 ids_imgs = np.random.randint(0,X_test.shape[0],9)
 for i in range(len(ids_imgs)):
-	idx = ids_imgs[i]
-	img = X_test[idx,:].reshape(28,28)
-	cat_original = np.argmax(Y_test[idx,:])
-	cat_prediccion = Y_pred[idx]
+    idx = ids_imgs[i]
+    img = X_test[idx,:].reshape(28,28)
+    cat_original = np.argmax(Y_test[idx,:])
+    cat_prediccion = Y_pred[idx]
 
-	plt.subplot(3,3,i+1)
-	plt.imshow(img, cmap='gray')
-	plt.axis('off')
-	plt.title('"{}" clasificado como "{}"'.format(cat_original,cat_prediccion))
+    plt.subplot(3,3,i+1)
+    plt.imshow(img, cmap='gray')
+    plt.axis('off')
+    plt.title('"{}" clasificado como "{}"'.format(cat_original,cat_prediccion))
 plt.suptitle('Ejemplos de clasificación en el set de validación')
 plt.show()
