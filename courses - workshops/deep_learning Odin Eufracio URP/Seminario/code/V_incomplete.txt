@@ -1,0 +1,16 @@
+30   NaN    24     8    12    14    12   NaN    22   NaN   NaN    10    14    24    20   NaN
+30    21   NaN    11    21   NaN    12    21   NaN    15    17   NaN     8    15    23   NaN
+NaN     9   NaN   NaN     9   NaN   NaN   NaN     7     9     8     7     5   NaN    11     6
+35   NaN   NaN    10   NaN   NaN   NaN   NaN    23   NaN    17    13    15    26    24   NaN
+NaN     9     9     5   NaN   NaN   NaN   NaN   NaN     9     8   NaN   NaN     9    11   NaN
+NaN    11    19     7   NaN    13    10    11    17    19    12     9    11    19    17   NaN
+45    24    30   NaN   NaN    29    18   NaN    25    30   NaN    19    17    30    32   NaN
+NaN   NaN    21   NaN    15    18    12    15    18    21    15    12    12    21    21    12
+25    11   NaN     7    11    13    10    11    17    19    12     9   NaN    19   NaN   NaN
+NaN    13    11     7    13    16     8   NaN     8    11    11   NaN   NaN    11    15     8
+45    24    30    14    24    29    18    24    25    30    23    19    17   NaN    32    18
+NaN    15    21     9   NaN    18    12    15    18    21    15    12   NaN    21    21    12
+25   NaN    13     9    17   NaN    10    17   NaN    13    14    13     7    13    19    10
+40    20    28    12    20   NaN    16    20   NaN   NaN   NaN    16    16   NaN    28    16
+NaN   NaN    18    10    18    22    12   NaN    14   NaN    16    14    10   NaN    22    12
+25    11    19     7    11   NaN    10   NaN   NaN   NaN   NaN     9    11    19    17   NaN
