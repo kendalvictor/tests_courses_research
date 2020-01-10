@@ -49,16 +49,23 @@ X_train = []
 Y_train = []
 m = len(set_entrenamiento_escalado)
 
-for i in range(time_step,m):
+for i in range(time_step, m):
     # X: bloques de "time_step" datos: 0-time_step, 1-time_step+1, 2-time_step+2, etc
-    X_train.append(set_entrenamiento_escalado[i-time_step:i,0])
-
+    X_train.append(
+        set_entrenamiento_escalado[i - time_step: i, 0]
+    )
     # Y: el siguiente dato
-    Y_train.append(set_entrenamiento_escalado[i,0])
+    Y_train.append(
+        set_entrenamiento_escalado[i, 0]
+    )
+    
 X_train, Y_train = np.array(X_train), np.array(Y_train)
 
 # Reshape X_train para que se ajuste al modelo en Keras
-X_train = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
+X_train = np.reshape(
+    X_train, 
+    (X_train.shape[0], X_train.shape[1], 1)
+)
 
 #
 # Red LSTM
