@@ -1,0 +1,7 @@
+SELECT * FROM tabla1;
+
+INSERT INTO tabla1 VALUES (1, 'HOLA');
+SELECT * FROM tabla1;
+
+DELETE FROM tabla1;
+SELECT * FROM tabla1;
