@@ -1,0 +1,5 @@
+Páginas de Interés:
+- https://www.kaggle.com/learn/machine-learning-explainability
+- https://github.com/slundberg/shap
+- https://github.com/marcotcr/lime
+- https://eli5.readthedocs.io/en/latest/autodocs/eli5.html
