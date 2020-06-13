@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 
  
 from PIL import Image
+from slugify import slugify
 import cv2
 import pytesseract
 import pandas as pd
@@ -151,12 +152,25 @@ class SunatCrawler(object):
         
     def page_scrap(self):
         
-        print("****PAGE CRAWLER REACTIVA PERU*****")
+        print("****PAGE CRAWLER SUNAR PERU*****")
+        _dicc = {}
         #Esperamos que se cargue la tabla de resultados
         WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.CLASS_NAME, "form-table")))
         #Obtenemos el enlace que contiene al RUC
-        list_data = [_.text for _ in self.driver.find_elements(By.CLASS_NAME, "bg")]
-        return list_data
+        list_data = [_ for _ in self.driver.find_elements(By.TAG_NAME, "tr")]
+        
+        
+        for ii, row in enumerate(list_data[5: 18]):
+            print(ii)
+            try:
+                llave = slugify(row.find_element(By.CLASS_NAME, "bgn").text.strip().replace(':', ''))
+                valor = row.find_element(By.CLASS_NAME, "bg").text.strip().replace(':', '')
+                _dicc[llave] = valor
+            except Exception as e:
+                print("EXCEPTION: ", str(e))
+            print(ii)
+    
+        return _dicc 
     
     def run(self, ruc):
         self.ruc = ruc
@@ -164,7 +178,7 @@ class SunatCrawler(object):
         self.page_session()
         data = self.page_scrap()
         self.driver.close()
-        return [_.strip() for _ in data[:15]]
+        return data
 
 
 if __name__ == '__main__':
