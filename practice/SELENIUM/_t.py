@@ -72,7 +72,7 @@ class SunatCrawler(object):
         #"safebrowsing.disable_download_protection": True
         
         self.driver_path = os.path.join(self.current_path, 'utils', 'chromedriver')
-        self.url = "http://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/jcrS03Alias"
+        self.url = "https://e-consultaruc.sunat.gob.pe/cl-ti-itmrconsruc/jcrS00Alias"
         self.driver = webdriver.Chrome(self.driver_path, options=options)
         self.driver.implicitly_wait(20)
         print("--DRIVER INICIALIZADO")
@@ -115,13 +115,21 @@ class SunatCrawler(object):
     
     def page_session(self):
         print("****PAGE SESSION*****")
-        #WebDriverWait(driver, 5).until(EC.text_to_be_present_in_element_value((By.NAME, "search1"), '1045139145'))
-        self.driver.execute_script("""
-            document.getElementsByName("search1")[0].value = {}
-        """.format(
-            self.ruc
-        ))
         
+        dd = self.driver.find_element_by_name("search1")
+        dd.send_keys(str(self.ruc))
+        try:
+            WebDriverWait(self.driver, 15).until(EC.text_to_be_present_in_element_value((By.NAME, "search1"), self.ruc))
+            time.sleep(5)
+        except:
+            print("/"*100)
+            #             document.getElementsByName("search1")[0].value = {}
+            self.driver.execute_script("""
+                document.querySelector("#s1 > input").value = {}
+            """.format(
+                self.ruc
+            ))
+            print("="*100)
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.NAME, "imagen")))
 
         self.driver.save_screenshot("screenshot.png")
@@ -151,7 +159,6 @@ class SunatCrawler(object):
         
         
     def page_scrap(self):
-        
         print("****PAGE CRAWLER SUNAR PERU*****")
         _dicc = {}
         #Esperamos que se cargue la tabla de resultados
@@ -176,9 +183,9 @@ class SunatCrawler(object):
         self.ruc = ruc
         self.page_load()
         self.page_session()
-        data = self.page_scrap()
-        self.driver.close()
-        return data
+        #data = self.page_scrap()
+        #self.driver.close()
+        return ruc
 
 
 if __name__ == '__main__':
