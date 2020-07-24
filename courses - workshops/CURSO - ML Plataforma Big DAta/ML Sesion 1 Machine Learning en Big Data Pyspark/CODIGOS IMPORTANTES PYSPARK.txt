@@ -1,0 +1,38 @@
+# 0. INSTALACION DE PYSPARK EN GOOGLE CLOUD
+#--------------------------------------------
+
+!apt-get install openjdk-8-jdk-headless -qq > /dev/null
+!wget -q https://www-us.apache.org/dist/spark/spark-2.4.3/spark-2.4.3-bin-hadoop2.7.tgz
+!tar xf spark-2.4.3-bin-hadoop2.7.tgz
+
+!apt-get install openjdk-8-jdk-headless -qq > /dev/null
+!wget -q https://www-us.apache.org/dist/spark/spark-2.4.4/spark-2.4.4-bin-hadoop2.7.tgz
+!tar xf spark-2.4.4-bin-hadoop2.7.tgz
+
+!pip install -q findspark
+
+
+import os
+os.environ["JAVA_HOME"] = "/usr/lib/jvm/java-8-openjdk-amd64"
+os.environ["SPARK_HOME"] = "/content/spark-2.4.3-bin-hadoop2.7"
+
+
+!pip install pyspark
+
+
+from pyspark.sql import SparkSession
+from pyspark import SparkContext
+spark = SparkSession.builder.master("local").getOrCreate()
+sc = SparkContext.getOrCreate()
+
+# 1. LECTURA DE DATOS
+#--------------------------------------------
+
+#MANUAL
+#----------
+from google.colab import files
+uploaded = files.upload()
+
+
+
+

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rflow [
+<!ENTITY lt "&#38;#60;">
+<!ENTITY gt "&#62;">
+<!ENTITY amp "&#38;#38;">
+<!ENTITY apos "&#39;">
+<!ENTITY quot "&#34;">
+]>
+<rflow>
+	<graph version="0.8" width="1291" height="370" locationtype="a" offsetx="0" offsety="-48">
+		<setting>
+			<entry key="USE_GRID">true</entry>
+			<entry key="FOLDER">1_Analisas_venta_seguros</entry>
+			<entry key="GRID_DISTANCE2">10</entry>
+		</setting>
+<properties>
+<v key="packages"/>
+</properties>
+		<node id="0" date="1541965600714" uid="687e956c2cafe56d" x="880" y="90">
+			<command>#6. Comparativa de modelos
+#-----------------------------------
+#install.packages(&quot;rminer&quot;)
+library(rminer)
+
+# Definicion de modelos
+#------------------------------------
+
+Models&lt;-c(&quot;naivebayes&quot;,&quot;lr&quot;,&quot;knn&quot;,&quot;dt&quot;)
+Colors&lt;-c(&quot;black&quot;,&quot;red&quot;,&quot;green&quot;,&quot;brown&quot;)
+
+Modelo&lt;-vector(&quot;list&quot;,length(Models))
+Modelo.predictions&lt;-vector(&quot;list&quot;,length(Models))
+AUCs&lt;-vector(&quot;list&quot;,length(Models))
+
+			# Evaluacion de predictores
+			#--------------------------------
+			#predictores&lt;-c(&quot;ANTIGUEDAD_MES&quot;,&quot;monto_ope_t2&quot;)
+			#DS_acotado&lt;- subset(Data_train,select= c(predictores,&quot;SOW_BCO_SEMESTRAL&quot;))
+
+
+# Definicion de modelos
+#------------------------------------
+for (i in 1:length(Models))
+{
+
+# Modelamiento
+#---------------------------
+Modelo[[i]]&lt;-fit(VENTA_SEGURO~ANTIGUEDAD_MES+monto_ope_t2,data=Data_train,model=Models[i],task=&quot;prob&quot;,na.action=na.omit)
+Modelo.predictions[[i]]&lt;-predict(Modelo[[i]],newdata=Data_test)
+
+# Indicador AUC
+#-----------------------
+AUCs[[i]]&lt;-mmetric(as.factor(Data_test$VENTA_SEGURO),Modelo.predictions[[i]],metric=&quot;AUC&quot;,TC=2)
+
+#Gains Curves
+#-----------------------
+mgraph(as.factor(Data_test$VENTA_SEGURO),Modelo.predictions[[i]],graph=&quot;LIFT&quot;,TC=-1,leg=NULL,baseline=TRUE,Grid=10,main=&quot;Cumulative Gains Curves&quot;,col=Colors[i],intbar=FALSE)
+par(new=TRUE)
+
+dev.set(which = dev.next())
+}
+legend(0.75, 0.35, Models,fill=Colors,bg=&quot;lightgrey&quot;,cex=0.75)
+
+# Revision de indicadores de AUC Test
+#-------------------------------------
+AUCs</command>
+			<property/>
+			<option type="com.ef_prime.rflow.node.base.FreeNodeModel"/>
+		</node>
+		<node id="1" date="1541907261628" uid="7ae58491f3dc755c" x="70" y="90">
+			<command>DS_Seguros_Salud &lt;- read.table(file = &quot;D:/B_CURSOS PARA DICTAR/B_M4_BIG_DATA_Y_MACHINE_LEARNING/ML en programa BigData/ML Sesion 3 Training R ML en Casos de Negocios/caso negocio 1 vtas seguros/0. DS_Seguros_Salud.csv&quot;, header = TRUE, sep = &quot;;&quot;, fileEncoding = &quot;windows-1252&quot;, quote = &quot;\&quot;&quot;, stringsAsFactors = FALSE, comment.char = &quot;&quot;, na.strings = &quot;&quot;)
+</command>
+			<property/>
+			<option type="com.ef_prime.rflow.node.ui.UINodeModel">
+<ui cls="com.ef_prime.rflow.core.app.r.RReadTable" version="0.2.1">
+<v key="file">"D:/B_CURSOS PARA DICTAR/B_M4_BIG_DATA_Y_MACHINE_LEARNING/ML en programa BigData/ML Sesion 3 Training R ML en Casos de Negocios/caso negocio 1 vtas seguros/0. DS_Seguros_Salud.csv"</v>
+<v key="_output">DS_Seguros_Salud</v>
+<v key="_output@auto">false</v>
+<v key="autodetect">false</v>
+<v key="sep">";"</v>
+<v key="header">TRUE</v>
+<v key="fileEncoding">"windows-1252"</v>
+<v key="nrows"/>
+<v key="na.strings">""</v>
+<v key="quote">"\""</v>
+<v key="stringsAsFactors">FALSE</v>
+<v key="comment.char">""</v>
+<v key="check.names"/>
+<v key="colClasses_type">columns</v>
+<v key="colClasses"/>
+<v key="colClass">"character"</v>
+<v key="advanced"/>
+</ui>
+			</option>
+		</node>
+		<node id="2" date="1541916033784" uid="40fccef8e2fcfab3" x="720" y="190">
+			<command># Grafico de variables importantes
+#------------------------------------
+#install.packages(&quot;colorspace&quot;)
+#install.packages(&quot;scorecard&quot;)
+
+library(colorspace)
+library(scorecard)
+
+# Variables más importantes por criterio IV
+#--------------------------------
+iv(Data_train, y=&quot;VENTA_SEGURO&quot;)
+DS_rev &lt;- DS_Seguros_Salud[, names(DS_Seguros_Salud) %in% c(&quot;SEXO&quot;, &quot;VENTA_SEGURO&quot;), drop = FALSE]
+
+# Filtrado preliminar de las variables más importantes
+#----------------------------------------------------
+
+dt_s = var_filter(DS_rev, y=&quot;VENTA_SEGURO&quot;,iv=0.00)
+
+# Representación grafica de variables más importantes
+#----------------------------------------------------
+bins = woebin(dt_s, y=&quot;VENTA_SEGURO&quot;)
+woebin_plot(bins)
+</command>
+			<property/>
+			<option type="com.ef_prime.rflow.node.base.FreeNodeModel"/>
+		</node>
+		<node id="3" date="1541907440737" uid="7ff58861fbb2b870" x="190" y="90">
+			<command>#1. Exploracion de datos cargados
+#---------------------------------------------------------
+
+#install.packages(&quot;DescTools&quot;)
+library(DescTools)
+options(scipen=999)
+Desc(DS_Seguros_Salud)
+
+# Revision de  1 variable
+#Desc(DS_Seguros_Salud$SOW_BCO_SEMESTRAL)
+#Desc(DS_Seguros_Salud$VENTA_SEGURO)
+
+</command>
+			<property/>
+			<option type="com.ef_prime.rflow.node.base.FreeNodeModel"/>
+		</node>
+		<node id="4" date="1541984126618" uid="a3ba3640d3a1879a" x="1040" y="90">
+			<command>#7. Exportando modelo ganador
+#----------------------------------
+Modelo[[2]]
+print(Modelo[[2]]@object)
+
+# Aplicandolo a un nuevo conjunto de datos
+Modelo.predictions[[2]]&lt;-predict(Modelo[[2]],newdata=Data_test)
+
+# Exportando resultados
+ENTREGA_CAMPANIA&lt;-cbind(Modelo.predictions[[2]],Data_test$VENTA_SEGURO)
+
+# Exportando a excel
+setwd(&quot;D:/B_CURSOS PARA DICTAR/B_M4_BIG_DATA_Y_MACHINE_LEARNING/ML en programa BigData/ML Sesion 3 Training R ML en Casos de Negocios/caso negocio 1 vtas seguros&quot;)
+write.csv(ENTREGA_CAMPANIA, file = &quot;Datos_Logist_HS.csv&quot;)
+
+# EValuando el punto de corte optimo
+# Validacion Aprendizaje  de pronsoticos
+library(Epi)
+ROC(Modelo.predictions[[2]][,2],Data_train$VENTA_SEGURO)
+
+</command>
+			<property/>
+			<option type="com.ef_prime.rflow.node.base.FreeNodeModel"/>
+		</node>
+		<node id="5" date="1541908537545" uid="add13e3e2208f1ef" x="460" y="90">
+			<command>DS_Seguros_Salud &lt;- local({
+	x &lt;- DS_Seguros_Salud
+	y &lt;- DS_Seguros_Salud
+	y[is.na(x[, &quot;SALDO_BCO_T2&quot;]), &quot;SALDO_BCO_T2&quot;] &lt;- with(x[is.na(x[, &quot;SALDO_BCO_T2&quot;]), , drop=FALSE], 0)
+	y[is.na(x[, &quot;NUM_TC_TOTAL_T2&quot;]), &quot;NUM_TC_TOTAL_T2&quot;] &lt;- with(x[is.na(x[, &quot;NUM_TC_TOTAL_T2&quot;]), , drop=FALSE], 0)
+	y[is.na(x[, &quot;LINEA_BCO_T2&quot;]), &quot;LINEA_BCO_T2&quot;] &lt;- with(x[is.na(x[, &quot;LINEA_BCO_T2&quot;]), , drop=FALSE], 0)
+	y[is.na(x[, &quot;USO_LINEA_BCO_T2&quot;]), &quot;USO_LINEA_BCO_T2&quot;] &lt;- with(x[is.na(x[, &quot;USO_LINEA_BCO_T2&quot;]), , drop=FALSE], 0)
+	y[is.na(x[, &quot;Nro_CTa_Ahorro_Bco_T1&quot;]), &quot;Nro_CTa_Ahorro_Bco_T1&quot;] &lt;- with(x[is.na(x[, &quot;Nro_CTa_Ahorro_Bco_T1&quot;]), , drop=FALSE], 0)
+	y[is.na(x[, &quot;Ahorro_Sldo_Bco_T1&quot;]), &quot;Ahorro_Sldo_Bco_T1&quot;] &lt;- with(x[is.na(x[, &quot;Ahorro_Sldo_Bco_T1&quot;]), , drop=FALSE], 0)
+	y[is.na(x[, &quot;monto_ope_t2&quot;]), &quot;monto_ope_t2&quot;] &lt;- with(x[is.na(x[, &quot;monto_ope_t2&quot;]), , drop=FALSE], 0)
+	y[is.na(x[, &quot;PROM_ANUAL_MTO_OPERA&quot;]), &quot;PROM_ANUAL_MTO_OPERA&quot;] &lt;- with(x[is.na(x[, &quot;PROM_ANUAL_MTO_OPERA&quot;]), , drop=FALSE], 0)
+	y[is.na(x[, &quot;MAX_MTO_OPERA_Anual&quot;]), &quot;MAX_MTO_OPERA_Anual&quot;] &lt;- with(x[is.na(x[, &quot;MAX_MTO_OPERA_Anual&quot;]), , drop=FALSE], 0)
+	y[is.na(x[, &quot;Ratio_HospvsMtoTotal_t2&quot;]), &quot;Ratio_HospvsMtoTotal_t2&quot;] &lt;- with(x[is.na(x[, &quot;Ratio_HospvsMtoTotal_t2&quot;]), , drop=FALSE], 0)
+	y
+})
+</command>
+			<property/>
+			<option type="com.ef_prime.rflow.node.ui.UINodeModel">
+<ui cls="com.ef_prime.rflow.core.app.r.RReplaceMissingValues" version="0.1.0">
+<v key="data">DS_Seguros_Salud</v>
+<v key="_output">DS_Seguros_Salud</v>
+<v key="_output@auto">false</v>
+<v key="table">
+<v type="replace">
+<v key="column">SALDO_BCO_T2</v>
+<v key="action">replace</v>
+<v key="na_value">0</v>
+<v key="create_flag">false</v>
+</v>
+<v type="replace">
+<v key="column">NUM_TC_TOTAL_T2</v>
+<v key="action">replace</v>
+<v key="na_value">0</v>
+<v key="create_flag">false</v>
+</v>
+<v type="replace">
+<v key="column">LINEA_BCO_T2</v>
+<v key="action">replace</v>
+<v key="na_value">0</v>
+<v key="create_flag">false</v>
+</v>
+<v type="replace">
+<v key="column">USO_LINEA_BCO_T2</v>
+<v key="action">replace</v>
+<v key="na_value">0</v>
+<v key="create_flag">false</v>
+</v>
+<v type="replace">
+<v key="column">Nro_CTa_Ahorro_Bco_T1</v>
+<v key="action">replace</v>
+<v key="na_value">0</v>
+<v key="create_flag">false</v>
+</v>
+<v type="replace">
+<v key="column">Ahorro_Sldo_Bco_T1</v>
+<v key="action">replace</v>
+<v key="na_value">0</v>
+<v key="create_flag">false</v>
+</v>
+<v type="replace">
+<v key="column">monto_ope_t2</v>
+<v key="action">replace</v>
+<v key="na_value">0</v>
+<v key="create_flag">false</v>
+</v>
+<v type="replace">
+<v key="column">PROM_ANUAL_MTO_OPERA</v>
+<v key="action">replace</v>
+<v key="na_value">0</v>
+<v key="create_flag">false</v>
+</v>
+<v type="replace">
+<v key="column">MAX_MTO_OPERA_Anual</v>
+<v key="action">replace</v>
+<v key="na_value">0</v>
+<v key="create_flag">false</v>
+</v>
+<v type="replace">
+<v key="column">Ratio_HospvsMtoTotal_t2</v>
+<v key="action">replace</v>
+<v key="na_value">0</v>
+<v key="create_flag">false</v>
+</v>
+</v>
+<v key="na_flag_suffix">_NA</v>
+</ui>
+			</option>
+		</node>
+		<node id="6" date="1541915166563" uid="9b0cf96713a4cb0f" x="590" y="90">
+			<command>#4. Definicion de muestras
+#---------------------------------------------------------
+#install.packages(&quot;caret&quot;)
+library(caret)
+#-----------------------------------------------------
+DF&lt;-DS_Seguros_Salud
+
+splitIndex &lt;- createDataPartition(DF$VENTA_SEGURO, p = .50,
+	list = FALSE,
+	times = 1)
+Data_train&lt;- DF[ splitIndex,]
+Data_test&lt;- DF[-splitIndex,]
+
+nrow(Data_train)    
+nrow(Data_test)</command>
+			<property/>
+			<option type="com.ef_prime.rflow.node.base.FreeNodeModel"/>
+		</node>
+		<node id="7" date="1541908397144" uid="14b29194f027d2c9" x="320" y="90">
+			<command>#2. Asignacion de formatos
+#---------------------------------------------------------
+DS_Seguros_Salud$VENTA_SEGURO&lt;-as.factor(DS_Seguros_Salud$VENTA_SEGURO)
+DS_Seguros_Salud$MES_T0&lt;-as.factor(DS_Seguros_Salud$MES_T0)
+DS_Seguros_Salud$SEXO&lt;-as.factor(DS_Seguros_Salud$SEXO)
+DS_Seguros_Salud$DEPARTAMENTO&lt;-as.factor(DS_Seguros_Salud$DEPARTAMENTO)
+</command>
+			<property/>
+			<option type="com.ef_prime.rflow.node.base.FreeNodeModel"/>
+		</node>
+		<node id="8" date="1541915485013" uid="1075b75c58b97203" x="720" y="90">
+			<command># 5. Variables importantes  
+#--------------------------------------
+# Cargando las librerias
+#install.packages(&quot;randomForest&quot;)
+library(randomForest)
+
+### XLS: 2 Importancia de variables.xlsx
+
+# Exploracion de variables importantes con el algoritmo Random Forest
+results &lt;- randomForest(VENTA_SEGURO~.,data=Data_train,na.action=na.omit,importance=TRUE,do.trace=FALSE,ntree=100)
+varImpPlot(results,type=2,main=paste(&quot;Relevancias de variables&quot;),col=&quot;blue&quot;,n.var=15)
+</command>
+			<property/>
+			<option type="com.ef_prime.rflow.node.base.FreeNodeModel"/>
+		</node>
+		<edge from="3" to="7"/>
+		<edge from="8" to="0"/>
+		<edge from="5" to="6"/>
+		<edge from="0" to="4"/>
+		<edge from="1" to="3"/>
+		<edge from="7" to="5"/>
+		<edge from="6" to="8"/>
+		<edge from="8" to="2"/>
+	</graph>
+	<task>
+		<taskgroup>
+			<taskproperty/>
+		</taskgroup>
+	</task>
+</rflow>
