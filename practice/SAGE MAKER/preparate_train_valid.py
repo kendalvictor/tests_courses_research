@@ -64,38 +64,15 @@ if __name__=='__main__':
     train = pd.read_csv('{}/train.csv'.format(path_container_input))
     train[seleccionadas].to_csv('{}/train.csv'.format(path_container_output), index=False)
     del train
-   
+    
     validation = pd.read_csv('{}/validation.csv'.format(path_container_input))
+    print(list(validation.columns))
+    ## Asegurarse que tenga sólo 2 meses
+    periodos = [str(_) for _ in sorted([int(periodo) for periodo in validation['periodo'].unique()])]
+    print("peridodos encontrados: ", periodos)
+    validation = validation[validation['periodo'].astype(str).isin(periodos[:2])]
+    print("peridodos validacion: ", validation['periodo'].unique())
     
-    if 'f3m' in sufijo:
-        validation[seleccionadas].to_csv('{}/validation.csv'.format(path_container_output), index=False)
-    else:
-        print(">> No tiene f3m", end=' ')
-        seguimiento = pd.read_csv('{}/seguimiento.csv'.format(path_container_input))
-        print(seguimiento.shape, 'periodo' in seguimiento.columns)
-        
-        periodos = [str(_) for _ in sorted([int(periodo) for periodo in seguimiento['periodo'].unique()])]
-        agregado = periodos[0]
-        print("agregado: ", agregado, type(agregado))
-        seguimiento = seguimiento[seguimiento['periodo'].astype(str) == agregado]
-    
-        if 'normal' in sufijo:
-            print(">> Tiene normal", end=' ')
-            seguimiento = seguimiento[seguimiento['flg_solo_normal'].astype(int) == 1]
-            print(seguimiento.shape)
-            
-        validation = pd.concat(
-            [
-                validation[seleccionadas], 
-                seguimiento[seleccionadas]
-            ],
-            ignore_index=True,
-            axis=0
-        )
-        print("validation: ", validation.shape)
-        
-        del seguimiento
-        validation[seleccionadas].to_csv('{}/validation.csv'.format(path_container_output), index=False)
-        
+    validation[seleccionadas].to_csv('{}/validation.csv'.format(path_container_output), index=False)
     del validation
-   
+ 

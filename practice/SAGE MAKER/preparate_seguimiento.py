@@ -42,24 +42,31 @@ print(sys.path)
 from utils.utils import *
 
 if __name__=='__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--sufijo", type=str)
+    args, _ = parser.parse_known_args()
+
+    sufijo = args.sufijo
+    target = sufijo.split('clasif')[0][:-1]
+    print("sufijo: ", sufijo)
+    print("target: ", target)
     print("dicc_seleccionadas: ", dicc_seleccionadas.keys())
+    
+    seleccionadas = ['cod_sbs_val', target] + dicc_seleccionadas.get(sufijo, [])
+    print(seleccionadas)
+    print(len(seleccionadas))
     
     seguimiento = pd.read_csv(path_container_input + '/seguimiento.csv', dtype={'cod_sbs_val': str})
     validation = pd.read_csv(path_container_input + '/validation.csv', dtype={'cod_sbs_val': str})
     
-    cols_target = [col for col in seguimiento.columns if 'target' in col.lower()]
-    print(cols_target)
-    print(len(cols_target))
-    
-    cols_id = ['cod_sbs_val', 'periodo'] + cols_target
+    cols_id = ['cod_sbs_val', 'periodo', target] 
     print(cols_id)
     print(len(cols_id))
     
     cols_str = list(set(
         [col for col in list(seguimiento.select_dtypes(include=[object, bool]).columns) + list(validation.select_dtypes(include=[object, bool]).columns) if col not in cols_id]
     ))
-    print(len(cols_str))
-    
+    print("Nro categorias: ", len(cols_str))
     col_convert_num = [col for col in cols_str if 'monto' in col.lower() or 'saldo' in col.lower() or 'sow' in col.lower() or 'over' in col.lower() or 'col' in col.lower()]
     for col in col_convert_num:
         print("/"*25, col)
@@ -133,28 +140,22 @@ if __name__=='__main__':
     del validation
     gc.collect()
     
-    for sufijo in dicc_seleccionadas.keys():
-        print("="*25, sufijo)
-        target = sufijo.split('clasif')[0][:-1]
-        print(target)
-        seleccionadas = ['cod_sbs_val', target] + dicc_seleccionadas.get(sufijo, [])
-        print(seleccionadas)
         
-        if a is not None:
-            mes = list(a['periodo'].unique())[0]
-            a[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
-        if b is not None:
-            mes = list(b['periodo'].unique())[0]
-            b[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
-        if c is not None:
-            mes = list(c['periodo'].unique())[0]
-            c[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
-        if d is not None:
-            mes = list(d['periodo'].unique())[0]
-            d[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
-        if e is not None:
-            mes = list(e['periodo'].unique())[0]
-            e[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
-        if f is not None:
-            mes = list(f['periodo'].unique())[0]
-            f[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
+    if a is not None:
+        mes = list(a['periodo'].unique())[0]
+        a[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
+    if b is not None:
+        mes = list(b['periodo'].unique())[0]
+        b[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
+    if c is not None:
+        mes = list(c['periodo'].unique())[0]
+        c[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
+    if d is not None:
+        mes = list(d['periodo'].unique())[0]
+        d[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
+    if e is not None:
+        mes = list(e['periodo'].unique())[0]
+        e[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
+    if f is not None:
+        mes = list(f['periodo'].unique())[0]
+        f[seleccionadas].to_csv('{}/{}_{}.csv'.format(path_container_output, mes, sufijo), index=False)
