@@ -70,8 +70,10 @@ if __name__=='__main__':
     ## Asegurarse que tenga sólo 2 meses
     periodos = [str(_) for _ in sorted([int(periodo) for periodo in validation['periodo'].unique()])]
     print("peridodos encontrados: ", periodos)
-    validation = validation[validation['periodo'].astype(str).isin(periodos[:2])]
+    #validation = validation[validation['periodo'].astype(str).isin(periodos[:2])]
     print("peridodos validacion: ", validation['periodo'].unique())
+    
+    print("seleccionadas :", seleccionadas)
     
     validation[seleccionadas].to_csv('{}/validation.csv'.format(path_container_output), index=False)
     del validation

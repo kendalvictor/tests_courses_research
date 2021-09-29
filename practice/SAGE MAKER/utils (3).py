@@ -39,6 +39,93 @@ def get_encoders_for_targets(data, col_cat='CATEGORIA', cols_target=['TARGET']):
     ).to_dict()
     return _dict
 
+def get_range_percent(val):
+    if val == 0:
+        return '0. <:0.0]'
+    elif val > 9:
+        return '5. <0.9:1.0]'
+    elif val > 0.75:
+        return '4. <0.75:0.9]'
+    elif val > 0.5:
+        return '3. <0.5:0.75]'
+    elif val > 0.25:
+        return '2. <0.25:0.5]'
+    else:
+        return '1. <0.0:0.25]'
+    
+    
+def get_range_saldos(val):
+    if val == 0:
+        return '0. <:0]'
+    elif val > 180000:
+        return '5. <180K:>'
+    elif val > 120000:
+        return '4. <120k:180k]'
+    elif val > 30000:
+        return '<3. 30k:120k]'
+    elif val > 10000:
+        return '2. <10k:30k]'
+    else:
+        return '1. <0-10k]'
+    
+    
+def get_nro_reg(val):
+    if val == 0:
+        return '0'
+    elif val == 1:
+        return '1'
+    else:
+        return '2 a mas'
+    
+    
+def generate_groups(data):
+    cols_saldos = [
+        'saldo_coloc_directas',
+        'saldo_coloc_indirectas',
+        'saldo_coloc_direct_vig_bcos', 
+        'saldo_coloc_direct_vig_cmpt', 
+        'saldo_coloc_direct_vig_no_ibk', 
+        'saldo_coloc_direct_vig_ibk', 
+        'saldo_coloc_direct_vig_cajas',
+        'saldo_reactiva',
+        'saldo_fae'
+    ]
+    
+    for col in cols_saldos:
+        data[col] = data[col].fillna(0)
+        col_new =  '_range_' + col.replace('saldo_', '')
+        data[col_new] = data[col].apply(get_range_saldos)
+    
+    cols_percent = [   
+        'porc_coloc_direct_vig_bcos', 
+        'porc_coloc_direct_vig_cmpt', 
+        'porc_coloc_direct_vig_no_ibk', 
+        'porc_coloc_direct_vig_ibk', 
+        'porc_coloc_direct_vig_cajas',
+        'sow_ibk', 
+        'sow_otros_bancos', 
+        'sow_cajas'
+    ]
+    
+    for col in cols_percent:
+        print("/"*50, col)
+        data[col] = data[col].fillna(0)
+        data['_categoryc_' + col.replace('porc_', '').replace('cmpt', 'competencia')] = data[col].apply(get_range_percent)
+        
+    cols_nro = [
+        'nroregs_reactiva_bcos',
+        'nroregs_fae_bcos'
+    ]
+    
+    for col in cols_nro:
+        print("/"*50, col)
+        data[col] = data[col].fillna(0)
+        data['_categoryc_' + col] = data[col].apply(get_nro_reg)
+    
+    
+    return data    
+    
+
 
 targets = {
     1: 'target_desembolso_f2m_f3m_mayor_10_menor_180',
@@ -94,28 +181,27 @@ target_desembolso_f2m_mayor_10_menor_180_clasif_all = ['monto_pagado_u6m', 'nro_
 #'monto_pagado_ult_rcc',  'variacion_neta_saldo_ajustado_u6m',
 #'variacion_neta_saldo_ajustado_u3m']  #### SOLO MONOTONOS
 
-
-target_desembolso_f2m_mayor_30_menor_180_clasif_normal = list(set(
-[
-    'sum_saldo_ajustado_promedio_u9m',
-    'monto_adquirido_u6m',
-    'monto_deuda_sf_prom_u9m',
-    'saldo_col_direct_vig_banco_no_ibk',
-    'tendencia_saldo_col_direct_vencido',
-    'nro_entidades_termino_prestamo_u9m',
-    'ultima_variacion_saldo_ajustado',
-    'monto_pagado_u6m',
-    'monto_adquirido_u6m',
-    'nro_entidades_ya_no_tiene_saldo_ajustado_u3m',
-    'entidad_cnt_prom_u9m',
-    'percent_promedio_col_direct_ibk_u3m',
-    'saldo_col_direct_vig_competencia',
-    'tendencia_max_dias_atraso_coloc_directas',
-    'saldo_reactiva',
-    'nro_entidades_ya_no_tiene_saldo_ajustado_u9m'
-]   ##  NUEVAS VARIBABLES
-))
-
+target_desembolso_f2m_mayor_30_menor_180_clasif_normal = [
+ 'deuda_sf_prom_ult9m',
+ 'saldo_coloc_direct_tc',
+ 'prom_reprog_u12m',
+ 'ult_var_saldo_ajustado_amt',
+ 'nro_entid_financ_prom_ult9m_cnt',
+ 'monto_adquirido_u6_amt',
+ 'nro_var_10k_30k_negativa_u6',
+ 'var_neta_saldo_ajustado_u3_amt',
+ 'prom_gar_u12m',
+ 'nroregs_reactiva_bcos',
+ 'monto_pagado_u3_amt',
+ 'saldo_coloc_direct_vig_bcos',
+ 'saldo_coloc_direct_vig_cmpt',
+ 'nro_entidades',
+ 'monto_pagado_ult_rcc_amt',
+ 'tendencia_nro_coloc_direct_bancos_v2',
+ 'sow_cajas',
+ 'prom_fae_u12m',
+ 'nro_var_10k_30k_negativa_u3'
+]
 
 
 
@@ -304,7 +390,6 @@ dicc_funcion_var = {
         'tendencia_max_dias_atraso_coloc_directas': get_cortes_tendencia_max_dias_atraso_coloc_directas,
         'saldo_reactiva': get_cortes_saldo_reactiva,
         'nro_entidades_ya_no_tiene_saldo_ajustado_u9m': get_cortes_nro_entidades_ya_no_tiene_saldo_ajustado_u9m
-  
     }
 }    
 

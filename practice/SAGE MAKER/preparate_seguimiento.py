@@ -52,7 +52,31 @@ if __name__=='__main__':
     print("target: ", target)
     print("dicc_seleccionadas: ", dicc_seleccionadas.keys())
     
-    seleccionadas = ['cod_sbs_val', target] + dicc_seleccionadas.get(sufijo, [])
+    
+    cols_analisis_posteriroes = [
+        'saldo_coloc_directas',
+        'saldo_coloc_indirectas',
+        'saldo_coloc_direct_vig_bcos', 
+        'saldo_coloc_direct_vig_cmpt', 
+        'saldo_coloc_direct_vig_no_ibk', 
+        'saldo_coloc_direct_vig_ibk', 
+        'saldo_coloc_direct_vig_cajas',
+        'porc_coloc_direct_vig_bcos', 
+        'porc_coloc_direct_vig_cmpt', 
+        'porc_coloc_direct_vig_no_ibk', 
+        'porc_coloc_direct_vig_ibk', 
+        'porc_coloc_direct_vig_cajas',
+        'sow_ibk', 
+        'sow_otros_bancos', 
+        'sow_cajas',
+        'nroregs_reactiva_bcos',
+        'saldo_reactiva',
+        'nroregs_fae_bcos',
+        'saldo_fae'
+    ]
+    
+    
+    seleccionadas = list(set(['cod_sbs_val', target] + dicc_seleccionadas.get(sufijo, []) + cols_analisis_posteriroes))
     print(seleccionadas)
     print(len(seleccionadas))
     
