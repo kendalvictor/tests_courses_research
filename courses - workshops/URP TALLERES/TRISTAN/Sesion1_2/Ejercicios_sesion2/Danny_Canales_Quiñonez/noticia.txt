@@ -1,0 +1,77 @@
+El nuevo gobierno proyecta que una eventual tercera ola de la epidemia de covid-19 causará, en el peor escenario, más de 115 mil muertes, pese a que ya se ha dado inicio a la vacunación. 
+
+Es un hecho que Perú se va a enfrentar a una tercera ola. La fecha, la duración y los estragos que podría causar es lo que aún se desconoce. Sin embargo, el equipo técnico del Centro Nacional de Epidemiología, Prevención y Control de Enfermedades (CDC) del Ministerio de Salud (Minsa) ha elaborado una proyección, en la que estima que esta ola iniciaría en setiembre y se extendería por nueve meses. Además, muestra cifras más alarmantes que las estimadas para la segunda ola: cerca de 2 500 000 casos y 67 292 fallecidos, en un escenario no tan grave, y más de 4 millones de casos y 115 189 muertes, en el peor escenario. ¿Podríamos estar ante un panorama tan devastador aún cuando ya se inició la vacunación?
+
+El 5 de agosto el Minsa dio a conocer el Informe Técnico 076-2021, donde presenta la metodología en la que se basó para estimar estos números: estudios de seroprevalencia en cada región del país, personas que ya han sido infectadas, susceptibles a infectarse, vacunados, reinfectados, casos totales, sintomáticos, hospitalizados, pacientes que llegan a UCI y fallecidos.
+
+Para detallar la explicación, hay que recordar el contexto que ha tomado en cuenta el Minsa para estimar estas proyecciones: 16% de población vacunada con dos dosis (hasta julio de este año) y la presencia de la variante Delta, altamente contagiosa, a nivel nacional, factores importantes que hacen la diferencia con las anteriores olas.
+
+“Todo parte de que, en una población, hay personas que aún están susceptibles a infectarse, y dentro de ellas, hay quienes van a enfermar, morir o recuperarse. Para cada uno de estos factores, hay diferentes valores que pueden convertir un escenario en menos o más grave”, explica el epidemiólogo de la Universidad Científica del Sur, Percy Mayta-Tristán.
+
+Con base en estos datos, nos colocaremos en el peor escenario previsto por el Minsa para explicar los hallazgos. De los más de 32 millones de peruanos, 18 152 183 personas ya habrían sido infectadas por el SARS-Cov2. Esta cifra se determina a partir de los estudios de seroprevalencia en cada región del país, que aún no han sido publicados, pero serían de conocimiento del sector Salud.
+
+En algunas ciudades como Iquitos sí se conoce el estudio de seroprevalencia realizado tras culminar su primera ola. En ese momento, se halló que el 70% de la población ya había sido infectada; entonces, en la segunda ola, hubo pocas personas susceptibles al contagio, por lo que los efectos no fueron devastadores. Iquitos ya habría vivido una tercera ola en julio, pero esta ha sido controlada.
+
+Entonces, si a la población total se le resta los que ya habrían sido infectados, se obtiene que hay unos 14 473 000 que aún podrían infectarse porque no han tenido antecedentes de covid-19.
+
+Es en este punto donde ingresa un nuevo factor que no se ha considerado en las anteriores olas: el inicio de la vacunación. El Minsa ha considerado el 16% de personas vacunadas con dos dosis (más de 5 millones de personas), lo que reduce la cantidad de personas susceptibles a infectarse hasta 9 207 955. A este grupo se le llama “susceptibles finales”.
+
+Pese a ello, aún no se puede concluir que estas serían todas las personas que se contagiarían de covid-19. Para calcular los probables casos, el Minsa multiplica el número de “susceptibles finales” con la tasa de ataque de covid-19 en el Perú. La tasa de ataque se refiere a la probabilidad de que una persona de una población específica se vea afectada por una enfermedad durante un tiempo determinado. Para el peor escenario, dicho valor es de 0.35%, lo que resulta en 3 222 784 posibles casos.
+
+Pero eso no es todo. Diversos estudios muestran casos de reinfecciones. En el peor escenario, el Minsa ha considerado que el 5% de los que alguna vez estuvieron infectados podría volver a padecer de coronavirus. Es decir, solo la suma de los casos más las reinfecciones darían los casos totales de covid-19 que podría presentar nuestro país en una eventual tercera ola de covid-19. Para el escenario más devastador, serían un total de 4 130 393.
+
+“La infección va a depender del virus (sus variantes), del comportamiento de las personas y de medidas del Gobierno. Ahora tenemos la presencia de la variante Delta y otras más, esa es una gran diferencia para el modelamiento que hizo el Minsa para la segunda ola con la actual proyección”, agrega el epidemiólogo Percy Mayta-Tristán.
+
+De acuerdo al ministro de Salud, Hernando Cevallos, la transmisión de la variante Delta en Perú sigue extendiéndose. A la fecha se han registrado 103 casos de esta variante y, de acuerdo al Instituto Nacional de Salud (INS), es la tercera con más presencia en nuestro país, después de la Lambda (C37) y Gamma (P.1). Y tiende a crecer. El secuenciamiento genético del SARS-CoV-2 que realiza el INS encontró que la variante Delta pasó de representar el 1% de las muestras analizadas, en junio, al 14% un mes después.
+
+Para Juan Celis, infectólogo que ha tratado pacientes covid-19 desde la primera ola en el Hospital Regional de Loreto, ” el problema de que (la variante Delta) sea más contagiosa, es que si hay más casos se pueden llenar nuevamente los centros de salud en pocas semanas, a diferencia de las otras variantes”.
+
+Según declaró el exministro de Salud Óscar Ugarte, las nuevas variantes de la covid-19 pueden disminuir la protección de las vacunas, pero solo en un bajo porcentaje. “Con dos dosis, la protección es de un 80% frente a la variante Delta”, estimó el extitular del sector Salud.
+
+A partir de la cifra de casos totales, el Minsa estima el impacto de la enfermedad considerando las tendencias observadas en estudios internacionales: el 80% de los casos totales llegarán a hacer síntomas (3 304 315), el 20% serán hospitalizados (660 863) y el 5% de los hospitalizados podrían ingresar a las unidades de cuidados intensivos (33 043).
+
+Finalmente, para obtener el número de fallecidos se toman en cuenta los casos, los hospitalizados, la proporción de hospitalizados en UCI y la letalidad, obtenidos de la vigilancia epidemiológica. El Minsa estimó que la segunda ola de covid-19 causaría entre 14 mil y 19 mil muertes, un cálculo muy por debajo de lo que se observó en la realidad —cerca de 100 mil fallecidos—, recuerda el epidemiólogo Mayta-Tristán. El Minsa proyecta que la tercera ola será aún más letal: más de 115 mil fallecidos.
+
+El Ministerio de Salud también ha hecho proyecciones para cada región. En la tercera ola, las más afectadas, por número de fallecidos, serían Lima, Piura, La Libertad, Cajamarca, Puno, Junín, Arequipa, Cusco, Ica y Áncash, tanto en el mejor como en el peor escenario.
+
+Hace un mes, las proyecciones mostraban otro escenario
+Los pronósticos elaborados por la gestión del actual ministro de Salud, Hernando Cevallos, pintan un cuadro mucho más inquietante que el bosquejado por su antecesor, Óscar Ugarte. En julio, poco antes del cambio de Gobierno, el Minsa presentó una proyección de los efectos de una tercera ola de la covid-19, la cual se basó en datos al 22 de junio de 2021. Esta preveía 1 605 600 contagiados y 35 mil muertes, en un escenario conservador, y 2 408 400 casos y más de 52 mil fallecidos en el peor escenario; es decir, casi la mitad de lo que se está estimando ahora.
+
+Ambos estudios fueron desarrollados por el equipo técnico del CDC. ¿Cómo se explican, entonces, las diferencias? No queda claro. El informe presentado en julio no especifica la metodología empleada en sus estimaciones, a diferencia del nuevo documento. Salud con Lupa intentó comunicarse con los responsables del primer informe, pero no recibió respuestas. Fuentes del Minsa solo indicaron que las proyecciones son actualizadas de manera constante a pedido del ministro.
+
+El epidemiólogo César Cárcamo atribuye ese súbito ajuste en las proyecciones al cambio de gestión, y, aunque considera al documento “un poco forzado por quienes lo han elaborado”, recomendó estar preparados para el peor panorama que nos pueda presentar una tercera ola.
+
+Los factores que no se tomaron en cuenta
+De cualquier forma, hay puntos que no se están tomando en cuenta en estas proyecciones, advierte Mayta-Tristán. Uno de ellos es que la vacunación contra la covid-19 avanza a diario. Por ejemplo, el actual documento fue realizado a finales de julio, con el 16% de población con dos dosis, pero según el último reporte del Minsa, al 13 de agosto ya hay casi un 25% de población vacunada con dos dosis (más de 6 millones) y 9 millones con una dosis. Según estimó el exministro Óscar Ugarte, en declaraciones para Epicentro, en las próximas dos o tres semanas, estos 9 millones recibirán su segunda dosis; entonces, se contaría con más de 15 millones de peruanos vacunados. Ello significa que casi el 50% de la población del país estaría protegida con el esquema completo de dos dosis en las próximas semanas.
+
+Esto sería un factor que evidentemente disminuirá el número de infectados y, por ende, los casos totales de covid-19 que podrían presentarse en la tercera ola de covid-19, indicó el epidemiólogo Percy Mayta-Tristán.
+
+Otro aspecto no considerado es que la población que aún no se ha infectado es joven, en su mayoría. Los menores de 30 años todavía no han sido vacunados, a excepción de algunas regiones como Tacna y Junín. La edad desempeña un papel importante porque la covid-19 tiende a causar menos daños en niños y adolescentes que en los adultos mayores, explica el Mayta-Tristán. Esto hace suponer que el pronóstico puede ser mejor que lo indicado por el Minsa.
+
+En general, si se avanza con la vacunación y se respetan las medidas de bioseguridad, como el lavado de manos, distanciamiento físico y el uso de mascarilla, se podrá evitar el peor escenario previsto por el Minsa frente a una tercera ola. “El escenario puede ser modificable”, agrega Mayta-Tristán.
+
+Sin embargo, esto no desestima la necesidad de estar preparados. Las medidas que dicte el Estado deberán priorizar la salud y no la economía, opina el epidemiólogo. El propósito es evitar que se repitan las trágicas imágenes de la segunda ola: personas muriendo sin obtener una cama UCI o un balón de oxígeno.
+
+
+Lo que está haciendo el Minsa y lo que no
+Esta mañana, el ministro de Salud, Hernando Cevallos, anunció que se está terminando de diseñar la estrategia de requerimientos frente a la tercera ola. Y el último viernes, aseguró que el Ministerio de Economía y Finanzas ha autorizado una partida presupuestal de 3 mil millones de soles para enfrentar la tercera ola de covid-19. Durante las últimas semanas, además, el titular del sector Salud ha venido anunciando las adquisiciones con las que se preparará para este panorama.
+
+En el caso del oxígeno, recurso que escaseó durante las primeras dos olas, el ministro aseguró que se comprarán 26 plantas, las cuales se sumarán a las 326 con las que cuenta el país. Según el exministro Ugarte, desde junio se cuenta con un superávit de este recurso.
+
+También, se planea implementar cánulas de alto flujo y centros temporales de oxigenación, incrementar camas hospitalarias y UCI y realizar 10 mil pruebas moleculares diarias para diagnosticar a tiempo los casos de covid-19.
+
+Según el último reporte de la Sala Situacional de Covid-19 del Minsa, a la fecha tenemos 2300 camas UCI destinadas a casos de coronavirus y cerca de la mitad están ocupadas. En el peor escenario proyectado por el Minsa, los pacientes en UCI serían más de 33 mil. Para Alfredo Celis, presidente del Comité de Ética y Vigilancia Deontológica del Colegio Médico del Perú (CMP), si ese pronóstico se cumple, la situación sería muy grave.
+
+Además, para Jesús Valverde, expresidente de la Sociedad Peruana de Medicina Intensiva, las camas UCI no solamente son destinadas a la covid-19, sino a otras enfermedades, por lo que si aún hay camas disponibles, pueden rápidamente ser ocupadas cuando nos enfrentemos a la tercera ola.
+
+El ministro Cevallos asegura que ya ha comprado millones de pulsioxímetros —no precisó la cifra—, 30 millones de mascarillas y se avanza en la compra de concentradores de oxígeno. En cuanto a la vacunación, clave para disminuir los contagios, el ministro ha dado a conocer que el Perú recibirá un total de 8 235 390 dosis durante el mes de agosto.Pero lo importante es cerrar las brechas de adultos mayores que aún no reciben la segunda dosis. Hay un millón de adultos mayores que no la han recibido.
+
+¿Estas medidas son suficientes? Para el infectólogo Juan Celis, el mayor problema para enfrentarnos a una tercera ola es la falta de profesionales de la salud, algo que ya se observó en las olas anteriores y que no parece ser una prioridad para el Minsa. Celis explica que hay médicos que han fallecido, otros que han dejado de laborar, así como enfermeras que están dedicadas a la vacunación antes que a la atención de casos covid-19, con los que evidentemente ya no se podrá contar en la eventual tercera ola. “Estamos en una crisis del recurso humano. Habrá más oxígeno, balones, camas, ventiladores, pero no hay quien los maneje”, detalla.
+
+Por su parte, Alfredo Celis, del Colegio Médico del Perú, indica que no se ha renovado el contrato a muchos médicos reclutados para enfrentar la pandemia bajo la modalidad CAS (contratos temporales), y que ahora estos deberían ser llamados nuevamente en prevención de una tercera ola. Sobre ese punto, el ministro de Salud dijo que están encontrando un déficit de pagos a los trabajadores de salud, un hecho que deberá ser analizado. Alfredo Celis también exhorta al Minsa a realizar más pruebas de detección temprana: entre 20 mil y 40 mil pruebas moleculares diarias.
+
+“No hemos vuelto a tener conferencias donde nos comuniquen el avance de la pandemia. Estamos en un momento bajo, pero es justo ahora cuando se debe dar una serie de actividades para mejorar y evitar el escenario más devastador”, recomienda Mayta-Tristán, quien también insta a que el Gobierno continúe negociando con los laboratorios para traer más vacunas.
+
+Según el ministro Hernando Cevallos, habría un retraso de la llegada de la vacuna de Sinopharm porque China atraviesa un rebrote, por la variante Delta, y ha dispuesto que el laboratorio posponga el envío de sus dosis a otros países por unos días.
+
+Pero aunque ese escollo se subsane pronto, aún será necesario garantizar que exista el número suficiente de trabajadores de salud. La covid-19 sigue su curso hacia una tercera ola y el Perú no termina de prepararse.
