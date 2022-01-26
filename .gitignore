@@ -343,7 +343,7 @@ requirements.txt
 *.pkl
 */**/catboost_info/*
 *.tmp
-
+*.mp4
 
 
 # End of https://www.gitignore.io/api/pydev,python,pycharm,composer,pycharm+iml,pycharm+all,jupyternotebook
